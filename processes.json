@@ -1,0 +1,15 @@
+{
+    "apps": [
+        {
+            "name": "ai-service-ticket-ui",
+            "script": "server/index.js",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "max_memory_restart": "128M",
+            "env": {
+                "PORT": 8080,
+                "NODE_ENV": "production"
+            }
+        }
+    ]
+}
