@@ -7,6 +7,7 @@ import Home from './pages';
 import About from './pages/about';
 import Clock from './pages/Clock';
 import Transactional from './pages/transactional';
+import { Row } from 'react-bootstrap';
 
 // import Blogs from './pages/blogs';
 // import SignUp from './pages/signup';
@@ -14,6 +15,8 @@ import Transactional from './pages/transactional';
   
 function App() {
 return (
+    <>
+<Row>
     <Router>
     <Navbar />
     <Routes>
@@ -24,6 +27,8 @@ return (
        
     </Routes>
     </Router>
+    </Row>
+    </>
 );
 }
   

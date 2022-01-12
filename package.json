@@ -14,7 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1028.0",
+    "axios": "^0.24.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
-    "pm2": "^5.1.2"
+    "pm2": "^5.1.2",
+    "pug": "^3.0.2"
   }
 }
