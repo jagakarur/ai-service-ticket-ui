@@ -9,22 +9,17 @@ class Transactional extends React.Component {
             showResult: false
 
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     handleChange(event) {
         this.setState({ textValue: event.target.value,
             showResult: false});
         console.warn(this.state)
     }
-
     handleSubmit(event) {
-
         const data = { data: this.state.textValue };
-
-        fetch('/api/transactional/doTransactions', {
+        fetch('/api/transactional/doTransactionsStage1', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
