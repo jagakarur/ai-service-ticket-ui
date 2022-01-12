@@ -5,7 +5,8 @@ class Transactional extends React.Component {
         super(props);
         this.state = {
             textValue: null,
-            resultData: null
+            resultData: null,
+            showResult: false
 
         };
 
@@ -14,7 +15,8 @@ class Transactional extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ textValue: event.target.value });
+        this.setState({ textValue: event.target.value,
+            showResult: false});
         console.warn(this.state)
     }
 
@@ -31,24 +33,15 @@ class Transactional extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                this.setState({ resultData: data.message })
+                if (data && data.message) {
+                    this.setState({ resultData: data.message.substr(181),
+                    showResult: true })
+                }
             })
             .catch((error) => {
-
                 console.error('Error:', error);
             });
 
-
-        // fetch("/api/transactional")
-        //     .then((res) => res.json())
-        //     .then((data) => {this.setState({ resultData: data.message})});
-
-
-
-
-
-
-        // alert('An essay was submitted: ' + this.state.value);
         event.preventDefault();
     }
 
@@ -58,38 +51,55 @@ class Transactional extends React.Component {
                 <Container fluid="md m-2">
                     <Row>
                         <Col>
-                            <Card bg={'light'}>
+                            <Card
+                                bg="light"
+                                style={{ width: '50rem' }}>
+                                <Card.Header>Output labels for BERT text classify</Card.Header>
                                 <Card.Body>
-                                    <h3>Mapping description for Output labels</h3>
-                                    <p>1.Banking Services, 2.Card Services, 3.Credit Reporting, 4.Debt Collection, 5.Loans, 6.Mortgage </p>
+                                    <Card.Text>1.Banking Services, 2.Card Services, 3.Credit Reporting, 4.Debt Collection, 5.Loans, 6.Mortgage
+                                    </Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>
                     </Row>
+                    <br></br>
                     <Row md={1}>
                         <Col> <Form onSubmit={this.handleSubmit}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 {/* <Form.Label><h3>Enter the text:</h3></Form.Label> */}
-                                <Form.Control name="textValue" as="textarea" rows={3} onChange={this.handleChange} placeholder='Enter text for transformer' />
+
+                                <Row md={2}><Col>
+                                    <Form.Control name="textValue" as="textarea" rows={3} onChange={this.handleChange} placeholder='Enter text for BERT classify' />
+                                </Col>
+                                    <Col>
+                                <Form.Control name="textValue2" as="textarea" rows={3} placeholder='Please Enter what you through' />
+                               </Col>
+                                </Row>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
                         </Form>
-
-                        </Col>
-
-                    </Row>
-                </Container>
-                <Container fluid="md m-2">
-                    <Row>
-                        <Col>
-                            <p>{this.state.resultData}</p>
                         </Col>
                     </Row>
                 </Container>
+                {this.state.showResult &&
 
-
+                    <Container fluid="md m-2">
+                        <Row>
+                            <Col>
+                                <Card
+                                    border="primary"
+                                    style={{ width: '50rem' }}>
+                                    <Card.Header>BERT model classification for your input as</Card.Header>
+                                    <Card.Body>
+                                        <Card.Text> {this.state.resultData}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Container>
+                }
             </>
         );
     }
