@@ -39,26 +39,27 @@ class Transactional extends React.Component {
                     label: "Mortgage",
                     value: "Mortgage",
                 },
-                // {
-                //     label: "Other",
-                //     value: "Other",
-                // }
+                {
+                    label: "Other",
+                    value: "Other",
+                }
             ]
         };
         this.handleChange = this.handleChange.bind(this);
         //this.onmycage = this.onmycage.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this); 
+       // this.handleClick = this.handleClick.bind(this); 
     }
     //final save buuton
-    handleClick() {
+    onSaveButton(event) {
+        console.log(this.state);
         const data = {
             user_input_txt: this.state.textValue,
             bert_classified: this.state.resultData,
             accepted_flag: false,
-            user_classified: this.state.userSelectedClaasified === "Other" ? this.state.otherCategoryTextValue : this.state.userSelectedClaasified
+            user_classified: this.state.userSelectedClaasified,
+            user_classified_other: this.state.otherCategoryTextValue
         };
         console.log(data);
         fetch('/api/transactional/doTransactionsStage2', {
@@ -82,28 +83,12 @@ class Transactional extends React.Component {
                 console.error('Error:', error);
             });
     }
-    handleChange(event) {
-        console.log(event.target.name);
-
+    handleChange(event) {      
         this.setState({
             textValue: event.target.value,
             showResult: false,
             firstSubmitButtonFlag: true
         });
-
-        // console.warn(this.state)
-    }
-
-    onmycage(event) {
-        console.log(event.target.name);
-        if (event.target.name === 'otherCategoryTextValue') {
-            this.setState({
-                otherCategoryTextValue: event.target.value,
-                showResult: false
-            });
-
-        }
-        // console.warn(this.state)
     }
     handleSubmit(event) {
         const data = { data: this.state.textValue };
@@ -134,7 +119,6 @@ class Transactional extends React.Component {
 
     handleCheckboxChange(event) {
         if (event.target.value === 'Yes') {
-
             const data = {
                 user_input_txt: this.state.textValue,
                 bert_classified: this.state.resultData,
@@ -175,7 +159,7 @@ class Transactional extends React.Component {
             });
         } else {
             this.setState({
-                userSelectedClaasified: null,
+                userSelectedClaasified: event.target.value,
                 otherCategoryFlag: true
             });
         }
@@ -196,7 +180,7 @@ class Transactional extends React.Component {
                     <Row md={1}>
                         <Col> <Form onSubmit={this.handleSubmit}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><h3>Please enter your issue here:</h3></Form.Label>
+                                <Form.Label>Please enter your issue here</Form.Label>
                                 <Row md={2}><Col>
                                     <OverlayTrigger
                                         placement="right"
@@ -266,18 +250,18 @@ class Transactional extends React.Component {
                                                         ))}
                                                     </Form.Select>
                                                 </Col>
-                                            </Row>
-                                            <Row style={{ paddingTop: 5, paddingRight: 0 }}>
+                                          
                                                 <Col>
                                                     {this.state.otherCategoryFlag &&
-                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea2">
-                                                            <Form.Control name="otherCategoryTextValue" as="textarea" rows={3} custom onChange={this.onmycage.bind(this)} placeholder='Please enter other details' />
-                                                        </Form.Group>}
+                                                        //  <input type="text" value={this.state.otherCategoryTextValue} />
+                                                             <Form.Control as="input" value={this.state.otherCategoryTextValue}  
+                                                             name= "otherCategoryText" placeholder="Enter other detail" />
+                                                    }
                                                 </Col>
                                             </Row>
                                             <Row style={{ paddingTop: 6, paddingRight: 0 }}>
                                                 <Col>
-                                                    <Button variant="primary" type="button" onClick={this.handleClick}>
+                                                    <Button variant="primary" type="button" custom onClick={this.onSaveButton.bind(this)}>
                                                         Submit Ticket
                                                     </Button>
                                                 </Col>

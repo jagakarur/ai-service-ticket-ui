@@ -1,7 +1,7 @@
 
 import React from 'react';
 import './App.css';
-import Navbar from './components/index';
+import NavbarClass from './components/index';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import About from './pages/about';
 import Transactional from './pages/transactional';
@@ -16,13 +16,10 @@ return (
     <>
 <Row>
     <Router>
-    <Navbar />
-    <Routes>
-        {/* <Route path='/' element={<Home />} /> */}
-        <Route path='/about' element={<About />} />
-        {/* <Route path='/clock' element={<Clock />} /> */}
+    <NavbarClass />
+    <Routes>  
         <Route exact path='/' element={<Transactional />} />
-       
+        <Route path='/about' element={<About />} />
     </Routes>
     </Router>
     </Row>
