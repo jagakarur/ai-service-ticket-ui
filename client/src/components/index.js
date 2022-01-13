@@ -31,15 +31,12 @@ const Navbar = () => {
   </Figure.Caption> */}
 </Figure>
       <Nav>
-  
-     
         <NavMenu>
-          
         {/* <NavLink to="/" activestyle>
             Home
           </NavLink> */}
           <NavLink to="/" activestyle>
-          BERT Text Classify
+          BERT Text Classification (Banking)
           </NavLink>
           <NavLink to="/about" activestyle>
             About

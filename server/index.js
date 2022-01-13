@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require('path');
 var cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 8080;
 
@@ -13,7 +14,9 @@ var awsDynamoDBRouter = require('./routes/awsDynamoDB');
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 //app.use(logger('dev'));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+//app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 

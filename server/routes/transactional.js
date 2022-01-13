@@ -35,11 +35,13 @@ router.post('/doTransactionsStage1', function(req, res, next) {
 
 
 router.post('/doTransactionsStage2', function(req, res, next) {
-  var data = req.body.data ? req.body.data:'';  
-  write_to_dynamoDB(req.body.data)
+  var data = req.body;  
+  var ticket_id = uuid.v4();
+  console.log(req.body);
+  write_to_dynamoDB(data, ticket_id)
   .then(function (response) {
     //console.log(JSON.stringify(response.data));
-    res.json({ message: 'Tiicket added in db'});
+    res.json({ message: ticket_id});
   })
   .catch(function (error) {
     console.log(error);
@@ -48,21 +50,22 @@ router.post('/doTransactionsStage2', function(req, res, next) {
 });
 
 
-async function write_to_dynamoDB(user_input_txt, bert_classified, accepted_flag, user_classified, user_classified_other) { 
+async function write_to_dynamoDB(inputData, ticket_id) { 
+  var dynamodb = new AWS.DynamoDB.DocumentClient();
    var table = "bert_bk_model_txt_classify";
    var params = {
      TableName: table,
      Item: {
-       ticket_id: uuid.v4(),
-       user_input_txt: user_input_txt?user_input_txt:null,
-       bert_classified: bert_classified?bert_classified:null,
-       accepted_flag: accepted_flag?accepted_flag:null,
-       user_classified: user_classified?user_classified:null,
-       user_classified_other: user_classified_other?user_classified_other:null,
+       ticket_id: ticket_id,
+       user_input_txt: (typeof inputData.user_input_txt !== 'undefined')?inputData.user_input_txt:null,
+       bert_classified: (typeof inputData.bert_classified !== 'undefined')?inputData.bert_classified:null,
+       accepted_flag: (typeof inputData.accepted_flag !== 'undefined')?inputData.accepted_flag:null,
+       user_classified: (typeof inputData.user_classified !== 'undefined')?inputData.user_classified:null,
+       user_classified_other: (typeof inputData.user_classified_other !== 'undefined')?inputData.user_classified_other:null,
        created_tm: new Date().toISOString()
      }
    };
-   await docClientDynamo.put(params, function (err, data) {
+   await dynamodb.put(params, function (err, data) {
      if (err) {
        console.error(JSON.stringify(err, null, 2));
      }
