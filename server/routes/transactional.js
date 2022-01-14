@@ -37,7 +37,7 @@ router.post('/doTransactionsStage1', function(req, res, next) {
 router.post('/doTransactionsStage2', function(req, res, next) {
   var data = req.body;  
   var ticket_id = uuid.v4();
-  console.log(req.body);
+  //console.log(req.body);
   write_to_dynamoDB(data, ticket_id)
   .then(function (response) {
     //console.log(JSON.stringify(response.data));
