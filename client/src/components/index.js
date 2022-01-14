@@ -1,6 +1,6 @@
 import React from "react";
 import logo from './cgi-logo.png';
-import { Figure, Container, Row, Col, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import {Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 
 const NavbarClass = (props) => {
  // const { location } = props;  //add this
@@ -35,7 +35,7 @@ const NavbarClass = (props) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav activeKey={props.pathname} variant="pills">
                     <Nav.Item>
-                      <Nav.Link href="/">BERT-Text-Classification(Banking)</Nav.Link>
+                      <Nav.Link href="/">Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link href="/about">About</Nav.Link>
