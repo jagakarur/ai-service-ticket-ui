@@ -11,7 +11,7 @@ class Transactional extends React.Component {
             showCategoryLlistFlag: false,
             userSelectedClaasified: null,
             otherCategoryFlag: false,
-            otherCategoryTextValue: null,
+            otherCategoryTextValue: "",
             successfulTicketSaveData: null,
             successfulTicketSaveFlag: false,
             issueTypeList: [
@@ -44,15 +44,11 @@ class Transactional extends React.Component {
                     value: "Other",
                 }
             ]
-        };
-        this.handleChange = this.handleChange.bind(this);
-        //this.onmycage = this.onmycage.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this); 
-       // this.handleClick = this.handleClick.bind(this); 
+        };      
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);        
     }
-    //final save buuton
-    onSaveButton(event) {
+
+    onSaveButton = event => {
         console.log(this.state);
         const data = {
             user_input_txt: this.state.textValue,
@@ -83,14 +79,22 @@ class Transactional extends React.Component {
                 console.error('Error:', error);
             });
     }
-    handleChange(event) {      
+    //handle change
+    handleChange = event => {
         this.setState({
             textValue: event.target.value,
             showResult: false,
             firstSubmitButtonFlag: true
         });
     }
-    handleSubmit(event) {
+
+    handleChangeOtherTextValue = event => {
+        this.setState({
+            otherCategoryTextValue: event.target.value,
+        });
+    }
+    //handleSubmit(event) {
+    handleSubmit = event => {
         const data = { data: this.state.textValue };
         fetch('/api/transactional/doTransactionsStage1', {
             method: 'POST', // or 'PUT'
@@ -243,25 +247,27 @@ class Transactional extends React.Component {
                                         <Card.Body>
                                             <Row style={{ paddingTop: 3, paddingRight: 0 }}>
                                                 <Col>
-                                                    <Form.Select aria-label="Please select issue category" custom onChange={this.onChangeSelect.bind(this)}>
-                                                        <option value="">Please select issue category</option>
+                                                    <Form.Label>Please select your issue related category from the following list</Form.Label>
+                                                    <Form.Select aria-label="Please select issue category" onChange={this.onChangeSelect.bind(this)}>
+                                                        <option key="0">Select issue category</option>
                                                         {this.state.issueTypeList.map((option) => (
-                                                            <option value={option.value}>{option.label}</option>
+                                                            <option key={option.value}>{option.label}</option>
                                                         ))}
                                                     </Form.Select>
                                                 </Col>
-                                          
+                                                </Row>
+                                                <Row style={{ paddingTop: 6, paddingRight: 0 }}>
                                                 <Col>
                                                     {this.state.otherCategoryFlag &&
                                                         //  <input type="text" value={this.state.otherCategoryTextValue} />
-                                                             <Form.Control as="input" value={this.state.otherCategoryTextValue}  
-                                                             name= "otherCategoryText" placeholder="Enter other detail" />
+                                                        <Form.Control as="input" value={this.state.otherCategoryTextValue}
+                                                            name="otherCategoryText" onChange={this.handleChangeOtherTextValue} placeholder="Enter other detail" />
                                                     }
                                                 </Col>
                                             </Row>
                                             <Row style={{ paddingTop: 6, paddingRight: 0 }}>
                                                 <Col>
-                                                    <Button variant="primary" type="button" custom onClick={this.onSaveButton.bind(this)}>
+                                                    <Button variant="primary" type="button" onClick={this.onSaveButton}>
                                                         Submit Ticket
                                                     </Button>
                                                 </Col>
