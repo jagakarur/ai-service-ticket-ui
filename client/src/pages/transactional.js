@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form, Container, Row, Col, Card, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import BarChart from './BarChart';
 class Transactional extends React.Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,12 @@ class Transactional extends React.Component {
             successfulTicketSaveData: null,
             successfulTicketSaveFlag: false,
             finalSaveButtonFlag: false,
+            explainabilityData: [
+                {subject: "Dogs", count: 150},
+                {subject: "Fish", count: 75},
+                {subject: "Cats", count: 135},
+                {subject: "Bunnies", count: 240},
+              ],
             issueTypeList: [
                 {
                     label: "Banking Services",
@@ -174,8 +181,8 @@ class Transactional extends React.Component {
         // this.setState({showCategoryLlistFlag: event.target.value})
     }
     onChangeSelect(event) {
-       // console.log(event.target.key);
-       // console.log(event.target.value);
+        // console.log(event.target.key);
+        // console.log(event.target.value);
         this.setState({
             // showCategoryLlistFlag: true,
             // otherCategoryFlag: false,
@@ -340,6 +347,17 @@ class Transactional extends React.Component {
 
                                                     <Row style={{ paddingTop: 3, paddingRight: 0 }}>
                                                         <Col>
+                                                            <Card
+                                                                border="light">
+                                                                <Card.Body>
+
+                                                                    <Card.Header>
+                                                                        <Card.Title as="h4">Explainability</Card.Title>
+                                                                    </Card.Header>
+                                                                    <BarChart width={600} height={400} data={this.state.explainabilityData} />
+                                                                </Card.Body>
+
+                                                            </Card>
                                                             <Card
                                                                 border="light">
                                                                 <Card.Body>

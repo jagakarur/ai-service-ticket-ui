@@ -34,6 +34,31 @@ router.post('/doTransactionsStage1', function(req, res, next) {
 });
 
 
+
+router.post('/doExplainability', function(req, res, next) {
+  var data = req.body.data ? req.body.data:'';  
+  var config = {
+    method: 'post',
+    url: 'http://20.96.44.183:80/api/v1/service/bertexpl/score',
+    headers: { 
+      'Authorization': 'Bearer ewFVGMkduns4r45OWqkmh7OSs69pQ4Wt', 
+      'Content-Type': 'text/plain'
+    },
+    data : data
+  };
+  axios(config)
+  .then(function (response) {
+    //console.log(JSON.stringify(response.data));
+    res.json({ message: response.data});
+  })
+  .catch(function (error) {
+    console.log(error);
+    res.send(JSON.stringify(error, null, 2));
+  });  
+});
+
+
+
 router.post('/doTransactionsStage2', function(req, res, next) {
   var data = req.body;  
   var ticket_id = uuid.v4();
