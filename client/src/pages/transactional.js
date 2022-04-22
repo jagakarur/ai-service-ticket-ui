@@ -263,17 +263,13 @@ class Transactional extends React.Component {
 
                                         {this.state.showResult &&
                                             <div>
-
-                                                <Row style={{ paddingTop: 3, paddingRight: 0 }}>
+                                                <Row style={{ paddingTop: 0, paddingRight: 0 }}>
                                                     <Col>
                                                     <Card
                                                                 border="light">
-                                                                <Card.Body>
-
-                                                                    <Card.Header>
-                                                                        <Card.Title as="h4">Explainability</Card.Title>
-                                                                    </Card.Header>
-                                                                    <BarChart width={600} height={400} data={this.state.explainabilityData} />
+                                                                <Card.Body>                                                                
+                                                                        <Card.Text>Explainability</Card.Text>                                                                   
+                                                                    <BarChart data={this.state.explainabilityData} />
                                                                 </Card.Body>
 
                                                             </Card>

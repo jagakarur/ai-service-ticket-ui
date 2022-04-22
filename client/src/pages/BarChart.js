@@ -1,14 +1,15 @@
 // BarChart.js
 import * as d3 from 'd3';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function BarChart({ data }) {
+function BarChart({ width, height, data }) {
 
 
     useEffect(() => {
+      d3.select("#barChart2").selectAll("svg").remove();
         // set the dimensions of the canvas
-        const width = 600,
-        height = 300,
+        const width = 500,
+        height = 250,
         margin = {
           top: 20,
           left: 100,
@@ -46,14 +47,14 @@ function BarChart({ data }) {
         // All the same until here
         // Now, if a bar is positive it starts at x = 0, and has positive width
         // If a bar is negative it starts at x < 0 and ends at x = 0
-        .attr('x', d => d.value > 0 ? x(0) : x(d.value))
+        .attr('x', d => d.value > 0.0 ? x(0.0) : x(d.value + 0.0))
         .attr('y', d => y(d.key))
         // If the bar is positive it ends at x = v, but that means it's x(v) - x(0) wide
         // If the bar is negative it ends at x = 0, but that means it's x(0) - x(v) wide
-        .attr('width', d => d.value > 0 ? x(d.value) - x(0) : x(0) - x(d.value))
+        .attr('width', d => d.value + 0.0 > 0.0 ? x(d.value + 0.0) - x(0.0) : x(0.0) - x(d.value + 0.0))
         .attr('height', y.bandwidth())
         // Let's color the bar based on whether the value is positive or negative
-        .attr('fill', d => d.value > 0 ? 'darkgreen' : 'darkred')
+        .attr('fill', d => d.value > 0.0 ? 'darkgreen' : 'darkred')
       
       g.append('g')
         .classed('x-axis', true)
