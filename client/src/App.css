@@ -37,6 +37,6 @@
   }
 }
 
-#LineChart {
+#BarChart {
   overflow: visible /* Just in case the axis render outside of our div, let's make sure it still displays */
 }

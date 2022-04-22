@@ -16,12 +16,7 @@ class Transactional extends React.Component {
             successfulTicketSaveData: null,
             successfulTicketSaveFlag: false,
             finalSaveButtonFlag: false,
-            explainabilityData: [
-                {subject: "Dogs", count: 150},
-                {subject: "Fish", count: 75},
-                {subject: "Cats", count: 135},
-                {subject: "Bunnies", count: 240},
-              ],
+            explainabilityData: null,
             issueTypeList: [
                 {
                     label: "Banking Services",
@@ -103,7 +98,7 @@ class Transactional extends React.Component {
     //handleSubmit(event) {
     handleSubmit = event => {
         const data = { data: this.state.textValue };
-        fetch('/api/transactional/doTransactionsStage1', {
+        fetch('/api/transactional/doExplainabilityStage1', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Accept': 'application/json',
@@ -115,7 +110,8 @@ class Transactional extends React.Component {
             .then(data => {
                 if (data && data.message) {
                     this.setState({
-                        resultData: data.message.substr(182),
+                        resultData: data.message,
+                        explainabilityData: data.word_attribute,
                         showResult: true,
                         firstSubmitButtonFlag: false
                     })
@@ -270,6 +266,17 @@ class Transactional extends React.Component {
 
                                                 <Row style={{ paddingTop: 3, paddingRight: 0 }}>
                                                     <Col>
+                                                    <Card
+                                                                border="light">
+                                                                <Card.Body>
+
+                                                                    <Card.Header>
+                                                                        <Card.Title as="h4">Explainability</Card.Title>
+                                                                    </Card.Header>
+                                                                    <BarChart width={600} height={400} data={this.state.explainabilityData} />
+                                                                </Card.Body>
+
+                                                            </Card>
                                                         <Card
                                                             border="light">
                                                             <Card.Body>
@@ -347,17 +354,7 @@ class Transactional extends React.Component {
 
                                                     <Row style={{ paddingTop: 3, paddingRight: 0 }}>
                                                         <Col>
-                                                            <Card
-                                                                border="light">
-                                                                <Card.Body>
-
-                                                                    <Card.Header>
-                                                                        <Card.Title as="h4">Explainability</Card.Title>
-                                                                    </Card.Header>
-                                                                    <BarChart width={600} height={400} data={this.state.explainabilityData} />
-                                                                </Card.Body>
-
-                                                            </Card>
+                                                           
                                                             <Card
                                                                 border="light">
                                                                 <Card.Body>
