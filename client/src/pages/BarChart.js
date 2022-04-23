@@ -19,8 +19,11 @@ function BarChart({ width, height, data }) {
       
       // Now, we don't use 0 as a minimum, but get it from the data using d3.extent
       const x = d3.scaleLinear()
-        .domain(d3.extent(data.map(d => d.value)))
-        .range([0, width]);
+        .domain(d3.extent(data.map(d => {
+          console.log(d.value);
+          return d.value})))
+        .range([0, width])
+        .nice(4);
       
       const y = d3.scaleBand()
         .domain(data.map(d => d.key))
@@ -43,18 +46,21 @@ function BarChart({ width, height, data }) {
       
       bars.enter()
         .append('rect')
-        .merge(bars)
+        .merge(bars)        
         // All the same until here
         // Now, if a bar is positive it starts at x = 0, and has positive width
         // If a bar is negative it starts at x < 0 and ends at x = 0
-        .attr('x', d => d.value > 0.0 ? x(0.0) : x(d.value + 0.0))
+        .attr('x', d => d.value > 0.0 ? x(0.0) : x(d.value))
         .attr('y', d => y(d.key))
         // If the bar is positive it ends at x = v, but that means it's x(v) - x(0) wide
         // If the bar is negative it ends at x = 0, but that means it's x(0) - x(v) wide
-        .attr('width', d => d.value + 0.0 > 0.0 ? x(d.value + 0.0) - x(0.0) : x(0.0) - x(d.value + 0.0))
+        .transition()
+        .duration(1500)
+        .delay(function(d,i){return i * 350;})
+        .attr('width', d => d.value > 0.0 ? x(d.value) - x(0.0) : x(0.0) - x(d.value))
         .attr('height', y.bandwidth())
         // Let's color the bar based on whether the value is positive or negative
-        .attr('fill', d => d.value > 0.0 ? 'darkgreen' : 'darkred')
+        .attr('fill', d => d.value > 0.0 ? 'darkgreen' : 'darkred')       
       
       g.append('g')
         .classed('x-axis', true)
@@ -63,7 +69,8 @@ function BarChart({ width, height, data }) {
       
       g.append('g')
         .classed('y-axis', true)
-        .call(d3.axisLeft(y))
+        .call(d3.axisLeft(y)) 
+
 
 
     }, [])
