@@ -268,7 +268,7 @@ class Transactional extends React.Component {
                                                     <Card
                                                                 border="light">
                                                                 <Card.Body>                                                                
-                                                                        <Card.Text>Explainability</Card.Text>                                                                   
+                                                                        <Card.Text>Local explanation for the given issue</Card.Text>                                                                   
                                                                     <BarChart data={this.state.explainabilityData} />
                                                                 </Card.Body>
 
